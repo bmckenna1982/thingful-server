@@ -91,7 +91,9 @@ const ThingsService = {
     // Some light hackiness to allow for the fact that `treeize`
     // only accepts arrays of objects, and we want to use a single
     // object.
+    // console.log('review', review)
     const reviewData = reviewTree.grow([ review ]).getData()[0]
+    // console.log('reviewData', reviewData)
 
     return {
       id: reviewData.id,

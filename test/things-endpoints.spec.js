@@ -97,7 +97,7 @@ describe('Things Endpoints', function () {
       it(`responds with 200 and an empty list`, () => {
         return supertest(app)
           .get('/api/things')
-          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          // .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, [])
       })
     })

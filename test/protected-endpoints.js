@@ -54,28 +54,25 @@ describe('Protected Endpoints', function () {
 
     protectedEndpoints.forEach(endpoint => {
       describe(endpoint.name, () => {
-        it(`responds with 401 'Missing basic token' when no basic token`, () => {
+        it(`responds with 401 'Missing bearer token' when no bearer token`, () => {
           return endpoint.method(endpoint.path)
-            .expect(401, { error: 'Missing basic token'})
+            .expect(401, { error: 'Missing bearer token'})
         })
         it(`responds 401 'Unauthorized request' when no credentials in token`, () => {
-          const userNoCreds = { user_name: '', password: '' }
+          // const userNoCreds = { user_name: '', password: '' }
+          const validUser = testUsers[0]
+          const invalidSecret = 'invalid-secret'
           return endpoint.method(endpoint.path)
-            .set('Authorization', helpers.makeAuthHeader(userNoCreds))
+            .set('Authorization', helpers.makeAuthHeader(validUser, invalidSecret))
             .expect(401, { error: `Unauthorized request` })
         })
-        it(`responds 401 'Unauthorized request' when invalid user`, () => {
-          const userInvalidCreds = { user_name: 'notUser', password: 'exists' }
+        it(`responds 401 'Unauthorized request' when invalid sub in payload`, () => {
+          // const userInvalidCreds = { user_name: 'notUser', password: 'exists' }
+          const invalidUser = { user_name: 'bad-user', password: 'exists'}
           return endpoint.method(endpoint.path)
-            .set('Authorization', helpers.makeAuthHeader(userInvalidCreds))
+            .set('Authorization', helpers.makeAuthHeader(invalidUser))
             .expect(401, { error: `Unauthorized request` })
-        })
-        it(`responds 401 'Unauthorized request' when invalid password`, () => {
-          const userInvalidCreds = { user_name: testUsers[0], password: 'invalid' }
-          return endpoint.method(endpoint.path)
-            .set('Authorization', helpers.makeAuthHeader(userInvalidCreds))
-            .expect(401, { error: `Unauthorized request` })
-        })
+        })        
       })
     })    
 })

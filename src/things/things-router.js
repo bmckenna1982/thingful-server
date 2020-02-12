@@ -23,14 +23,14 @@ thingsRouter
   })
 
 thingsRouter.route('/:thing_id/reviews/')
-.all(requireAuth)
+  .all(requireAuth)
   .all(checkThingExists)
   .get((req, res, next) => {
     ThingsService.getReviewsForThing(
       req.app.get('db'),
       req.params.thing_id
     )
-      .then(reviews => {
+      .then(reviews => {        
         res.json(ThingsService.serializeThingReviews(reviews))
       })
       .catch(next)

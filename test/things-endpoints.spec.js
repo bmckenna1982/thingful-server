@@ -97,7 +97,7 @@ describe('Things Endpoints', function () {
       it(`responds with 200 and an empty list`, () => {
         return supertest(app)
           .get('/api/things')
-          .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
+          // .set('Authorization', helpers.makeAuthHeader(testUsers[0]))
           .expect(200, [])
       })
     })
@@ -156,7 +156,8 @@ describe('Things Endpoints', function () {
   describe(`GET /api/things/:thing_id`, () => {
     context(`Given no things`, () => {
       beforeEach(() =>
-        db.into('thingful_users').insert(testUsers)
+        // db.into('thingful_users').insert(testUsers)
+        helpers.seedUsers(db, testUsers)
       )
       it(`responds with 404`, () => {
         const thingId = 123456
@@ -223,7 +224,8 @@ describe('Things Endpoints', function () {
   describe(`GET /api/things/:thing_id/reviews`, () => {
     context(`Given no things`, () => {
       beforeEach(() =>
-        db.into('thingful_users').insert(testUsers)
+        // db.into('thingful_users').insert(testUsers)
+        helpers.seedUsers(db, testUsers)
       )
       it(`responds with 404`, () => {
         const thingId = 123456
